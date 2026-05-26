@@ -1,53 +1,57 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import "@/index.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Toaster } from "sonner";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+import Landing from "@/pages/Landing";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import HostedCheckout from "@/pages/HostedCheckout";
 
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
+import DashboardLayout from "@/pages/dashboard/DashboardLayout";
+import Home from "@/pages/dashboard/Home";
+import Payments from "@/pages/dashboard/Payments";
+import Customers from "@/pages/dashboard/Customers";
+import Balance from "@/pages/dashboard/Balance";
+import ApiKeys from "@/pages/dashboard/ApiKeys";
+import Webhooks from "@/pages/dashboard/Webhooks";
+import Developers from "@/pages/dashboard/Developers";
+import Settings from "@/pages/dashboard/Settings";
 
 function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <BrowserRouter>
+        <Toaster
+          theme="dark"
+          position="top-right"
+          toastOptions={{
+            style: { background: "#121212", border: "1px solid #27272A", color: "#fff", fontFamily: "IBM Plex Sans, sans-serif" },
+          }}
+        />
         <Routes>
-          <Route path="/" element={<Home />}>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/checkout/:token" element={<HostedCheckout />} />
+
+          <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
             <Route index element={<Home />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="balance" element={<Balance />} />
+            <Route path="api-keys" element={<ApiKeys />} />
+            <Route path="webhooks" element={<Webhooks />} />
+            <Route path="developers" element={<Developers />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
+
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </div>
+    </AuthProvider>
   );
 }
 

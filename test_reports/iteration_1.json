@@ -1,0 +1,45 @@
+{
+  "summary": "First-iteration testing of Voltpay payment platform. Built /app/backend/tests/test_voltpay_backend.py with 30 pytest cases covering auth, api-keys, public /api/v1/payment_intents (create/confirm with 4242 + 4000 0002), idempotency, refunds (full/partial), customers, webhooks, checkout sessions, balance/ledger/stats. 29/30 backend tests PASS. One backend bug found: brute-force lockout never returns 429 (HTTPException is swallowed by a bare `except Exception: pass`). Frontend E2E: landing renders, /register creates account & redirects to /dashboard, sidebar nav works, API keys page shows masked secret + reveal/copy/rotate UI, Payments page loads, hosted checkout at /checkout/{token} successfully processed 4242 and reached 'Payment received' screen.",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "POST /api/auth/login", "issue": "Brute-force lockout never triggers. In routes_auth.py line 73-83, the `if (now - last_dt).total_seconds() < 900: raise HTTPException(429)` is wrapped in `try/except Exception: pass`, which catches the very HTTPException that should propagate. After 5+ failed logins, the response stays 401 instead of 429. Confirmed with 6 sequential bad logins → all 401. Fix: change to `except (ValueError, TypeError):` or move the HTTPException raise OUT of the try block.", "priority": "HIGH"}
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Dashboard Home", "issues": ["Recharts emits warnings 'width(-1) and height(-1) of chart should be greater than 0' on first paint — ResponsiveContainer parent collapses to 0 briefly. Chart still renders. Add minHeight or fixed height to the chart container to silence warning and avoid layout shift."]},
+      {"screen": "Landing /", "issues": ["Two 401 console errors from /api/auth/me on initial load (AuthContext probes session). Cosmetic — consider suppressing 401 logs for the auth probe or checking cookie first."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_voltpay_backend.py",
+    "/app/backend/tests/conftest.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Fix brute-force lockout in /app/backend/routes_auth.py: remove the bare `except Exception: pass` around the HTTPException(429) raise, or re-raise HTTPException explicitly. Current code lets attackers try unlimited passwords.",
+    "Optional: add minHeight to dashboard revenue chart ResponsiveContainer to silence recharts width/height warnings."
+  ],
+  "critical_code_review_comments": [
+    "routes_auth.py login: bare `except Exception` swallows HTTPException — BUG (see action_items).",
+    "Secret API keys returned in plaintext from GET /api/api-keys — by design per problem statement (sandbox), but document this risk for production.",
+    "auth.py / get_current_user expects MongoDB ObjectId in JWT `sub`. If JWT_SECRET rotates or user is deleted, tokens silently 401 — acceptable.",
+    "server.py is ~300 lines and aggregates 4 route modules — within size limits.",
+    "All public API endpoints under /api/v1/* correctly reject missing/invalid Authorization with 401 (verified)."
+  ],
+  "updated_files": [
+    "/app/backend/tests/__init__.py",
+    "/app/backend/tests/conftest.py",
+    "/app/backend/tests/test_voltpay_backend.py"
+  ],
+  "success_rate": {"backend": "97% (29/30)", "frontend": "100% of core flows tested"},
+  "test_credentials": "Tests register fresh merchants per session with prefix TEST_*@voltpay-test.io / TestPass1234!. Seed account demo@voltpay.io / demo1234 exists per /app/memory/test_credentials.md (not used in tests but available).",
+  "seed_data_creation": "Each test class registers its own TEST_ prefixed merchant; no manual seed required. Test merchants accumulate in DB (no automatic teardown) — non-blocking for sandbox.",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Backend test suite at /app/backend/tests/test_voltpay_backend.py is comprehensive and reusable. Run: `pytest /app/backend/tests/ -v`. Only failing test is `TestHealthAndAuth::test_brute_force_lockout` — will pass once the bare `except Exception: pass` in routes_auth.py login handler is fixed. Frontend testids: login uses `login-submit-btn` (not `-button`), logout is `logout-btn`. Checkout uses combined `checkout-exp` for MM/YY (not separate month/year).",
+  "rca_of_the_issue": "Brute-force lockout RCA: In /app/backend/routes_auth.py login handler, lines ~73-83: code reads last_attempt timestamp and raises HTTPException(429) inside a try block whose except catches `Exception`. Because Starlette's HTTPException inherits from Exception, the 429 is silently swallowed and execution continues to the normal password-check path, which raises 401. Reproduction: register fresh user, POST /api/auth/login 6+ times with wrong password → all return 401. Mitigation: replace `except Exception:` with a narrow `except (ValueError, TypeError):` so only datetime parsing errors are ignored, OR move the `raise HTTPException` AFTER/outside the try."
+}
