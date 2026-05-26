@@ -27,7 +27,7 @@ export default function Home() {
     <div data-testid="dashboard-home">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// overview</div>
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-1">Overview</div>
           <h1 className="font-display text-4xl font-bold tracking-tight">Today.</h1>
         </div>
         <Link to="/dashboard/payments" className="btn-secondary text-sm" data-testid="view-all-payments-btn">
@@ -40,7 +40,7 @@ export default function Home() {
         <div className="card-base p-8 relative overflow-hidden">
           <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
           <div className="relative">
-            <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-2">Gross volume · all time</div>
+            <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-2">Gross volume · all time</div>
             <div className="font-display text-6xl font-bold tracking-tight">
               {stats ? formatCents(stats.gross_volume_cents) : "$0.00"}
             </div>
@@ -81,12 +81,12 @@ export default function Home() {
       {/* Recent activity */}
       <div className="card-base overflow-hidden">
         <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted">Recent payments</div>
+          <div className="font-medium text-xs uppercase tracking-[0.2em] text-text-muted">Recent payments</div>
           <Link to="/dashboard/payments" className="text-xs text-volt hover:underline" data-testid="view-recent-link">View all</Link>
         </div>
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-text-muted font-mono text-xs uppercase tracking-widest">
+            <tr className="text-text-muted text-xs uppercase tracking-[0.2em]">
               <th className="text-left px-5 py-3 font-medium">Amount</th>
               <th className="text-left px-5 py-3 font-medium">Status</th>
               <th className="text-left px-5 py-3 font-medium">Card</th>
@@ -118,12 +118,12 @@ function Stat({ label, value, sub, icon, testid }) {
   return (
     <div className="card-base p-5 flex flex-col justify-between" data-testid={testid}>
       <div className="flex items-center justify-between">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted">{label}</div>
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">{label}</div>
         {icon || <CheckCircle2 size={14} className="text-volt" />}
       </div>
       <div>
         <div className="font-display text-3xl font-bold tracking-tight">{value}</div>
-        <div className="text-xs text-text-muted mt-1 font-mono">{sub}</div>
+        <div className="text-xs text-text-muted mt-1">{sub}</div>
       </div>
     </div>
   );

@@ -28,7 +28,7 @@ export default function Sidebar() {
         </div>
         <div>
           <div className="font-display text-lg font-bold tracking-tight leading-none">Voltpay</div>
-          <div className="text-[10px] uppercase font-mono tracking-widest text-text-muted mt-0.5">Test mode</div>
+          <div className="text-[10px] uppercase font-medium tracking-[0.2em] text-volt/80 mt-0.5">Free forever</div>
         </div>
       </div>
 

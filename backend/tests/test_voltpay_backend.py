@@ -165,10 +165,10 @@ class TestPublicPaymentIntents:
         # Verify charge
         charges = auth_client.get(f"{BASE_URL}/api/charges").json()
         assert any(c["id"] == confirmed["latest_charge_id"] and c["status"] == "succeeded" for c in charges)
-        # Balance should increase by net (5000 - fee)
+        # Balance should increase by the full amount (platform is free, no fees)
         b2 = auth_client.get(f"{BASE_URL}/api/balance").json()["available_cents"]
-        # 5000 * 0.029 + 30 = 145 + 30 = 175 fee; net = 4825
-        assert b2 - b1 == 4825, f"Expected net 4825 added; got {b2 - b1}"
+        # 0% fee + 0 cents fixed → net = amount
+        assert b2 - b1 == 5000, f"Expected full 5000 added; got {b2 - b1}"
         # Ledger entry exists
         ledger = auth_client.get(f"{BASE_URL}/api/ledger").json()
         assert any(e["ref_id"] == confirmed["latest_charge_id"] for e in ledger)

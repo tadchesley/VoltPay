@@ -19,7 +19,7 @@ await voltpay.paymentIntents.confirm(intent.id, {
   payment_method: { card: { number, exp_month, exp_year, cvc } }
 });
 
-// → status: "succeeded"  net: $48.55`}
+// → status: "succeeded"  net: $49.99  fees: $0.00`}
   </pre>
 );
 
@@ -38,6 +38,15 @@ const testCards = [
   { num: "4000 0000 0000 9995", result: "Insufficient funds", tone: "err" },
   { num: "4000 0000 0000 0069", result: "Expired card", tone: "err" },
 ];
+
+function Row({ label, value }) {
+  return (
+    <div className="flex items-center justify-between py-1">
+      <span className="text-text-secondary">{label}</span>
+      <span className="text-volt font-medium">{value}</span>
+    </div>
+  );
+}
 
 export default function Landing() {
   const [copied, setCopied] = useState(false);
@@ -78,8 +87,8 @@ export default function Landing() {
         <div className="absolute right-[-10%] top-[-10%] w-[600px] h-[600px] rounded-full bg-volt/10 blur-[120px] pointer-events-none" />
         <div className="relative max-w-[1280px] mx-auto px-8 py-24 lg:py-32 grid lg:grid-cols-[1.1fr,1fr] gap-12 items-center">
           <div className="fade-up">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-volt/10 border border-volt/20 text-volt font-mono text-xs uppercase tracking-widest mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-volt pulse-soft" /> v1.0 — Sandbox live
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-volt/10 border border-volt/20 text-volt text-xs font-medium uppercase tracking-[0.2em] mb-6">
+              <span className="w-1.5 h-1.5 rounded-full bg-volt pulse-soft" /> Now free for everyone
             </div>
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight">
               The payment rail<br />
@@ -124,7 +133,7 @@ export default function Landing() {
               </div>
               <div>
                 <div className="text-[10px] font-mono uppercase tracking-widest text-text-muted">visa •••• 4242</div>
-                <div className="text-sm font-medium">+ $48.55</div>
+                <div className="text-sm font-medium">+ $49.99</div>
               </div>
             </div>
           </div>
@@ -135,7 +144,7 @@ export default function Landing() {
       <section id="features" className="border-b border-[var(--border)] py-24">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="max-w-2xl mb-16">
-            <div className="font-mono text-xs uppercase tracking-widest text-volt mb-3">// platform</div>
+            <div className="text-xs font-medium uppercase tracking-[0.2em] text-volt mb-3">Platform</div>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">
               One payment stack.<br /> All the primitives.
             </h2>
@@ -162,13 +171,13 @@ export default function Landing() {
       <section id="developers" className="border-b border-[var(--border)] py-24 bg-noise relative">
         <div className="max-w-[1280px] mx-auto px-8 grid lg:grid-cols-[1fr,1.3fr] gap-12 items-center">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-volt mb-3">// developers</div>
+            <div className="text-xs font-medium uppercase tracking-[0.2em] text-volt mb-3">Developers</div>
             <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight mb-5">
               Ship in 5 minutes.
             </h2>
             <p className="text-text-secondary leading-relaxed mb-8">
-              Generate test API keys instantly. Make your first charge with curl. Move to production
-              when you're ready — your code doesn't change.
+              Generate API keys instantly. Make your first charge with curl. Everything you need
+              is free — keys, sandbox, production, all of it.
             </p>
             <button onClick={copyCmd} className="btn-secondary font-mono text-xs" data-testid="copy-curl-btn">
               {copied ? "Copied!" : "$ copy curl example"}
@@ -202,9 +211,9 @@ export default function Landing() {
       <section id="test-cards" className="border-b border-[var(--border)] py-24">
         <div className="max-w-[1280px] mx-auto px-8">
           <div className="max-w-2xl mb-12">
-            <div className="font-mono text-xs uppercase tracking-widest text-volt mb-3">// sandbox</div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">Test cards.</h2>
-            <p className="text-text-secondary mt-3">Use these in sandbox to simulate every outcome.</p>
+            <div className="text-xs font-medium uppercase tracking-[0.2em] text-volt mb-3">Test cards</div>
+            <h2 className="font-display text-4xl md:text-5xl font-bold tracking-tight">Try it instantly.</h2>
+            <p className="text-text-secondary mt-3">Use any of these card numbers to simulate every payment outcome — success, decline, expired, and more.</p>
           </div>
           <div className="grid md:grid-cols-2 gap-4">
             {testCards.map((tc, i) => (
@@ -230,25 +239,29 @@ export default function Landing() {
       <section id="pricing" className="border-b border-[var(--border)] py-24">
         <div className="max-w-[1280px] mx-auto px-8 grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-volt mb-3">// pricing</div>
-            <h2 className="font-display text-5xl font-bold tracking-tight">
-              2.9% <span className="text-text-muted">+</span> $0.30
+            <div className="text-xs font-medium uppercase tracking-[0.2em] text-volt mb-3">Pricing</div>
+            <h2 className="font-display text-6xl font-bold tracking-tight">
+              Free<span className="text-text-muted">.</span>
             </h2>
-            <p className="text-text-secondary mt-3 max-w-md">
-              Per successful card charge. No setup, monthly, or hidden fees. Volume discounts kick in past $50k/mo.
+            <p className="text-text-secondary mt-4 max-w-md text-lg leading-relaxed">
+              Every feature, every transaction, every merchant — free, forever. No setup fees,
+              no per-transaction fees, no hidden costs.
             </p>
             <Link to="/register" className="btn-volt mt-8" data-testid="pricing-cta">
-              Start in sandbox <ArrowUpRight size={16} />
+              Get started <ArrowUpRight size={16} />
             </Link>
           </div>
-          <div className="card-base p-8 space-y-3 font-mono text-sm">
-            <div className="flex justify-between"><span className="text-text-secondary">Tokenization</span><span className="text-volt">included</span></div>
-            <div className="flex justify-between"><span className="text-text-secondary">Webhooks</span><span className="text-volt">included</span></div>
-            <div className="flex justify-between"><span className="text-text-secondary">Hosted checkout</span><span className="text-volt">included</span></div>
-            <div className="flex justify-between"><span className="text-text-secondary">Dashboard + reports</span><span className="text-volt">included</span></div>
-            <div className="flex justify-between"><span className="text-text-secondary">Sandbox volume</span><span className="text-volt">unlimited</span></div>
-            <div className="flex justify-between border-t border-[var(--border)] pt-3 mt-3"><span>Refunds</span><span>free</span></div>
-            <div className="flex justify-between"><span>Disputes</span><span>$15.00</span></div>
+          <div className="card-base p-8 space-y-3 text-sm">
+            <Row label="Card payments" value="Free" />
+            <Row label="Tokenization" value="Free" />
+            <Row label="Webhooks" value="Free" />
+            <Row label="Hosted checkout" value="Free" />
+            <Row label="Dashboard & reports" value="Free" />
+            <Row label="Refunds" value="Free" />
+            <Row label="Transaction volume" value="Unlimited" />
+            <div className="border-t border-[var(--border)] pt-3 mt-3 text-xs text-text-muted">
+              No credit card required. No trial period. Everything you see is included.
+            </div>
           </div>
         </div>
       </section>
@@ -263,7 +276,7 @@ export default function Landing() {
             <span className="font-display font-bold tracking-tight">Voltpay</span>
             <span className="text-xs text-text-muted ml-2 font-mono">© 2026</span>
           </div>
-          <div className="text-xs text-text-muted font-mono">A simulated payment network. Sandbox only.</div>
+          <div className="text-xs text-text-muted">An independent payment network — free for every merchant.</div>
         </div>
       </footer>
     </div>

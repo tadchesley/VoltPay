@@ -60,7 +60,7 @@ export default function Webhooks() {
     <div data-testid="webhooks-page">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// webhooks</div>
+          <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Webhooks</div>
           <h1 className="font-display text-4xl font-bold tracking-tight">Webhooks</h1>
         </div>
         <button onClick={() => setOpen(true)} className="btn-volt text-sm" data-testid="add-webhook-btn">
@@ -71,7 +71,7 @@ export default function Webhooks() {
       <div className="card-base mb-8">
         <div className="px-5 py-4 border-b border-[var(--border)] flex items-center gap-2">
           <WebhookIcon size={14} className="text-volt" />
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted">Endpoints</div>
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">Endpoints</div>
         </div>
         {endpoints.length === 0 && (
           <div className="text-center text-text-muted py-12 text-sm">No webhook endpoints yet.</div>
@@ -99,11 +99,11 @@ export default function Webhooks() {
       <div className="card-base overflow-hidden">
         <div className="px-5 py-4 border-b border-[var(--border)] flex items-center gap-2">
           <Activity size={14} className="text-volt" />
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted">Recent events</div>
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">Recent events</div>
         </div>
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-text-muted font-mono text-xs uppercase tracking-widest">
+            <tr className="text-text-muted text-xs font-medium uppercase tracking-[0.2em]">
               <th className="text-left px-5 py-3 font-medium">Event</th>
               <th className="text-left px-5 py-3 font-medium">Status</th>
               <th className="text-left px-5 py-3 font-medium">Resource</th>

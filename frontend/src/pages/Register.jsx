@@ -44,11 +44,11 @@ export default function Register() {
               Start charging<br /><span className="text-volt">in 60 seconds.</span>
             </h2>
             <p className="text-text-secondary mt-5 max-w-md">
-              Your sandbox merchant account ships with test API keys, a hosted checkout, and the
-              full dashboard. No card required.
+              Your free merchant account ships with API keys, a hosted checkout page, and the
+              full dashboard. No credit card required, ever.
             </p>
             <ul className="mt-8 space-y-2.5 text-sm text-text-secondary">
-              <li className="flex items-center gap-2.5"><span className="w-1.5 h-1.5 rounded-full bg-volt" /> Unlimited sandbox transactions</li>
+              <li className="flex items-center gap-2.5"><span className="w-1.5 h-1.5 rounded-full bg-volt" /> Unlimited transactions, zero fees</li>
               <li className="flex items-center gap-2.5"><span className="w-1.5 h-1.5 rounded-full bg-volt" /> Real-time webhooks & event log</li>
               <li className="flex items-center gap-2.5"><span className="w-1.5 h-1.5 rounded-full bg-volt" /> Full REST API + idempotency keys</li>
             </ul>

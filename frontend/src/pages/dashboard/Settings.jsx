@@ -5,12 +5,12 @@ export default function Settings() {
   return (
     <div data-testid="settings-page" className="max-w-3xl">
       <div className="mb-8">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// settings</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Settings</div>
         <h1 className="font-display text-4xl font-bold tracking-tight">Account</h1>
       </div>
 
       <div className="card-base p-6 mb-4">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-4">Business profile</div>
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-4">Business profile</div>
         <Row label="Business name" value={user?.business_name || "—"} />
         <Row label="Email" value={user?.email} mono />
         <Row label="Country" value={user?.country} mono />
@@ -19,15 +19,22 @@ export default function Settings() {
       </div>
 
       <div className="card-base p-6 mb-4">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-4">Payout preferences</div>
-        <Row label="Schedule" value="Daily (T+2)" />
-        <Row label="Bank account" value="Not connected — sandbox" mono />
-        <Row label="Minimum payout" value="$5.00" mono />
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-4">Plan</div>
+        <Row label="Current plan" value="Free — forever" />
+        <Row label="Transaction fees" value="None" />
+        <Row label="Volume cap" value="Unlimited" />
+      </div>
+
+      <div className="card-base p-6 mb-4">
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-4">Payout preferences</div>
+        <Row label="Schedule" value="Daily" />
+        <Row label="Bank account" value="Not connected" mono />
+        <Row label="Minimum payout" value="None" mono />
       </div>
 
       <div className="card-base p-6">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-4">Compliance</div>
-        <Row label="KYC status" value="Sandbox auto-approved" />
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-4">Compliance</div>
+        <Row label="KYC status" value="Auto-approved" />
         <Row label="Risk score" value="Low" />
         <Row label="Audit log" value="Enabled" />
       </div>

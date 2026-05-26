@@ -44,7 +44,7 @@ export default function Customers() {
     <div data-testid="customers-page">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// customers</div>
+          <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Customers</div>
           <h1 className="font-display text-4xl font-bold tracking-tight">Customers</h1>
         </div>
         <button onClick={() => setOpen(true)} className="btn-volt text-sm" data-testid="new-customer-btn">
@@ -55,7 +55,7 @@ export default function Customers() {
       <div className="card-base overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-text-muted font-mono text-xs uppercase tracking-widest">
+            <tr className="text-text-muted text-xs font-medium uppercase tracking-[0.2em]">
               <th className="text-left px-5 py-3 font-medium">Email</th>
               <th className="text-left px-5 py-3 font-medium">Name</th>
               <th className="text-left px-5 py-3 font-medium">Description</th>

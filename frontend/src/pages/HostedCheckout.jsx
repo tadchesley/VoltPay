@@ -200,7 +200,7 @@ export default function HostedCheckout() {
           </button>
 
           <div className="mt-4 flex items-center justify-center gap-2 text-xs text-zinc-400 font-mono">
-            <Lock size={11} /> Secured by Voltpay · Test mode
+            <Lock size={11} /> Secured by Voltpay
           </div>
         </form>
 

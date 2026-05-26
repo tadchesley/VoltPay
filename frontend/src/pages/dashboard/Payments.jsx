@@ -49,7 +49,7 @@ export default function Payments() {
     <div data-testid="payments-page">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// payments</div>
+          <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Payments</div>
           <h1 className="font-display text-4xl font-bold tracking-tight">All payments</h1>
         </div>
         <button onClick={load} className="btn-secondary text-sm" data-testid="refresh-payments-btn">
@@ -87,7 +87,7 @@ export default function Payments() {
 
         <table className="w-full text-sm">
           <thead>
-            <tr className="text-text-muted font-mono text-xs uppercase tracking-widest">
+            <tr className="text-text-muted text-xs font-medium uppercase tracking-[0.2em]">
               <th className="text-left px-5 py-3 font-medium">Amount</th>
               <th className="text-left px-5 py-3 font-medium">Status</th>
               <th className="text-left px-5 py-3 font-medium">Card</th>
@@ -129,7 +129,7 @@ export default function Payments() {
           <div className="w-full max-w-md bg-[var(--bg)] border-l border-[var(--border)] overflow-y-auto p-6">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <div className="font-mono text-xs text-text-muted uppercase tracking-widest">Payment</div>
+                <div className="font-mono text-xs text-text-muted uppercase tracking-[0.2em]">Payment</div>
                 <div className="font-mono text-sm text-text-secondary">{selected.id}</div>
               </div>
               <button onClick={() => setSelected(null)} className="btn-ghost p-2" data-testid="close-drawer-btn">
@@ -139,23 +139,23 @@ export default function Payments() {
 
             <div className="space-y-4">
               <div>
-                <div className="text-text-muted text-xs font-mono uppercase tracking-widest mb-1">Amount</div>
+                <div className="text-text-muted text-xs font-medium uppercase tracking-[0.2em] mb-1">Amount</div>
                 <div className="font-display text-3xl font-bold">{formatCents(selected.amount, selected.currency)}</div>
                 <div className="mt-1.5"><StatusBadge status={selected.status} /></div>
               </div>
 
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <Detail label="Fee" value={formatCents(selected.fee || 0)} />
-                <Detail label="Net" value={formatCents(selected.net || 0)} />
+                <Detail label="Amount received" value={formatCents(selected.net || selected.amount, selected.currency)} />
+                <Detail label="Refunded" value={formatCents(selected.amount_refunded || 0)} />
                 <Detail label="Card" value={`${(selected.card_brand || "").toUpperCase()} •••• ${selected.card_last4}`} mono />
                 <Detail label="Exp" value={`${selected.card_exp_month}/${selected.card_exp_year}`} mono />
-                <Detail label="Refunded" value={formatCents(selected.amount_refunded || 0)} />
                 <Detail label="Auth code" value={selected.authorization_code || "—"} mono />
+                <Detail label="Currency" value={(selected.currency || "usd").toUpperCase()} mono />
               </div>
 
               {selected.failure_message && (
                 <div className="bg-red-500/10 border border-red-500/30 rounded-md px-3 py-2 text-sm text-red-400">
-                  <div className="font-mono text-xs uppercase tracking-widest mb-0.5">{selected.failure_code}</div>
+                  <div className="text-xs font-medium uppercase tracking-[0.2em] mb-0.5">{selected.failure_code}</div>
                   {selected.failure_message}
                 </div>
               )}
@@ -167,7 +167,7 @@ export default function Payments() {
 
               {(selected.status === "succeeded" || selected.status === "partially_refunded") && (
                 <div className="card-base p-4">
-                  <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-2">Issue refund</div>
+                  <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-2">Issue refund</div>
                   <div className="text-xs text-text-secondary mb-3">
                     Available: {formatCents(selected.amount - (selected.amount_refunded || 0))}
                   </div>
@@ -187,7 +187,7 @@ export default function Payments() {
               )}
 
               <details className="card-base p-4">
-                <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-text-muted">Raw JSON</summary>
+                <summary className="cursor-pointer text-xs font-medium uppercase tracking-[0.2em] text-text-muted">View technical details</summary>
                 <pre className="mt-3 text-xs font-mono text-text-secondary overflow-x-auto">{JSON.stringify(selected, null, 2)}</pre>
               </details>
             </div>
@@ -201,7 +201,7 @@ export default function Payments() {
 function Detail({ label, value, mono }) {
   return (
     <div>
-      <div className="text-text-muted text-xs font-mono uppercase tracking-widest mb-0.5">{label}</div>
+      <div className="text-text-muted text-xs font-medium uppercase tracking-[0.2em] mb-0.5">{label}</div>
       <div className={`text-sm ${mono ? "font-mono" : ""}`}>{value}</div>
     </div>
   );

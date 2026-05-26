@@ -84,7 +84,7 @@ print(result["status"])  # 'succeeded'`,
   return (
     <div data-testid="developers-page" className="max-w-4xl">
       <div className="mb-8">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// developers</div>
+        <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Developers</div>
         <h1 className="font-display text-4xl font-bold tracking-tight">API & docs</h1>
         <p className="text-text-secondary mt-2">Quickstart guides, test cards, and reference endpoints.</p>
       </div>
@@ -94,7 +94,7 @@ print(result["status"])  # 'succeeded'`,
         <div className="flex items-center justify-between px-3 py-2 border-b border-[var(--border)]">
           <div className="flex items-center gap-2">
             <Code2 size={14} className="text-volt" />
-            <span className="font-mono text-xs uppercase tracking-widest text-text-muted">Quickstart</span>
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">Quickstart</span>
           </div>
           <div className="flex items-center gap-1">
             {TABS.map((t) => (

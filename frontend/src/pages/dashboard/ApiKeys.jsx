@@ -41,7 +41,7 @@ export default function ApiKeys() {
     <div data-testid="api-keys-page" className="max-w-4xl">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">// developers</div>
+          <div className="text-xs uppercase tracking-[0.2em] text-text-muted mb-1">Developers</div>
           <h1 className="font-display text-4xl font-bold tracking-tight">API keys</h1>
         </div>
         <button onClick={rotate} disabled={busy} className="btn-secondary text-sm" data-testid="rotate-keys-btn">
@@ -62,7 +62,7 @@ export default function ApiKeys() {
           <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
             <div className="flex items-center gap-2">
               <KeyRound size={14} className="text-volt" />
-              <span className="font-mono text-xs uppercase tracking-widest text-text-muted">
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted">
                 {k.mode || "test"} keys
               </span>
               <span className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest rounded-full border border-volt/30 bg-volt/10 text-volt">Active</span>
@@ -91,7 +91,7 @@ export default function ApiKeys() {
 
       {revoked.length > 0 && (
         <div className="mt-8">
-          <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-3">Revoked</div>
+          <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-3">Revoked</div>
           <div className="space-y-2">
             {revoked.map((k) => (
               <div key={k.id} className="card-base p-4 opacity-60 flex items-center justify-between" data-testid={`api-key-revoked-${k.id}`}>
@@ -111,7 +111,7 @@ function KeyRow({ label, value, isSecret, revealed, onToggle, onCopy, copied }) 
   return (
     <div className="px-5 py-4 flex items-center justify-between gap-3 border-b border-[var(--border)] last:border-b-0">
       <div className="min-w-0 flex-1">
-        <div className="font-mono text-xs uppercase tracking-widest text-text-muted mb-1">{label}</div>
+        <div className="text-xs font-medium uppercase tracking-[0.2em] text-text-muted mb-1">{label}</div>
         <div className="font-mono text-sm truncate select-all" data-testid={`key-value-${label.toLowerCase().replace(/\s+/g, '-')}`}>{masked}</div>
       </div>
       <div className="flex items-center gap-1.5">
