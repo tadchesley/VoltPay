@@ -1,0 +1,13 @@
+# Files Vercel should ignore when uploading the project
+backend/tests/
+backend/__pycache__/
+backend/.env
+backend/.venv/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+test_reports/
+memory/
+auth_testing.md
+design_guidelines.json
+*.log
