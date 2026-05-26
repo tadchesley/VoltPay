@@ -1,0 +1,165 @@
+{
+  "theme": "dark",
+  "archetype": "Archetype 4 (Swiss & High-Contrast - Dark Mode Variant)",
+  "color_tokens": {
+    "background": "#050505",
+    "surface": "#121212",
+    "surface_elevated": "#1A1A1A",
+    "border": "#27272A",
+    "border_hover": "#3F3F46",
+    "text_primary": "#FFFFFF",
+    "text_secondary": "#A1A1AA",
+    "text_muted": "#52525B",
+    "accent": "#D4FF00",
+    "accent_hover": "#B8DE00",
+    "accent_subtle": "rgba(212, 255, 0, 0.1)",
+    "success": "#22C55E",
+    "success_subtle": "rgba(34, 197, 94, 0.1)",
+    "warning": "#F59E0B",
+    "warning_subtle": "rgba(245, 158, 11, 0.1)",
+    "danger": "#EF4444",
+    "danger_subtle": "rgba(239, 68, 68, 0.1)",
+    "info": "#3B82F6",
+    "info_subtle": "rgba(59, 130, 246, 0.1)",
+    "chart_palette": ["#D4FF00", "#00F0FF", "#E4E4E7", "#52525B"]
+  },
+  "typography": {
+    "display_font": {
+      "family": "Cabinet Grotesk",
+      "rationale": "Strong, authoritative, and slightly technical display font that avoids the standard AI 'SaaS' look. Perfect for confident financial headers."
+    },
+    "body_font": {
+      "family": "IBM Plex Sans",
+      "rationale": "Clear, precise, and objective. Provides high legibility for dense financial data and dashboards."
+    },
+    "mono_font": {
+      "family": "JetBrains Mono",
+      "rationale": "The gold standard for developer interfaces. Instantly communicates a 'developer-first' API platform."
+    }
+  },
+  "spacing_scale": {
+    "rationale": "Generous spacing on landing, dense 'Control Room' spacing for dashboard.",
+    "dashboard": {
+      "gap": "gap-4 to gap-6",
+      "padding": "p-4 to p-6"
+    },
+    "landing": {
+      "gap": "gap-12 to gap-32",
+      "padding": "py-24 to py-32"
+    }
+  },
+  "component_recipes": {
+    "button": {
+      "primary": "bg-accent text-black font-medium hover:bg-accent-hover transition-colors rounded-none px-6 py-2.5 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)] active:shadow-none active:translate-y-1 active:translate-x-1",
+      "secondary": "bg-surface border border-border text-text-primary hover:bg-surface-elevated transition-colors rounded-none px-6 py-2.5",
+      "ghost": "text-text-secondary hover:text-text-primary hover:bg-surface transition-colors rounded-none px-4 py-2"
+    },
+    "card": {
+      "default": "bg-surface border border-border rounded-xl p-6",
+      "interactive": "bg-surface border border-border hover:border-accent/50 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(212,255,0,0.05)]",
+      "checkout": "bg-white text-black border border-gray-200 rounded-2xl p-8 shadow-2xl"
+    },
+    "table": {
+      "container": "border border-border rounded-xl bg-surface overflow-hidden",
+      "header": "bg-surface-elevated border-b border-border text-xs uppercase tracking-wider text-text-secondary font-mono py-3 px-4",
+      "row": "border-b border-border hover:bg-surface-elevated/50 transition-colors cursor-pointer",
+      "cell": "py-4 px-4 text-sm text-text-primary font-body"
+    },
+    "badge": {
+      "success": "bg-success-subtle text-success border border-success/20 rounded-full px-2.5 py-0.5 text-xs font-medium",
+      "warning": "bg-warning-subtle text-warning border border-warning/20 rounded-full px-2.5 py-0.5 text-xs font-medium",
+      "danger": "bg-danger-subtle text-danger border border-danger/20 rounded-full px-2.5 py-0.5 text-xs font-medium",
+      "neutral": "bg-surface-elevated text-text-secondary border border-border rounded-full px-2.5 py-0.5 text-xs font-medium"
+    },
+    "input": {
+      "default": "bg-surface-elevated border border-border rounded-md px-4 py-2 text-text-primary focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent transition-colors w-full placeholder:text-text-muted font-mono text-sm"
+    },
+    "sidebar": {
+      "container": "w-64 border-r border-border bg-background h-screen flex flex-col p-4",
+      "link": "flex items-center gap-3 px-3 py-2 rounded-md text-text-secondary hover:text-text-primary hover:bg-surface-elevated transition-colors font-medium text-sm",
+      "link_active": "flex items-center gap-3 px-3 py-2 rounded-md text-accent bg-accent-subtle font-medium text-sm"
+    },
+    "chart_container": {
+      "default": "h-[300px] w-full mt-6"
+    },
+    "code_block": {
+      "container": "bg-[#09090B] border border-border rounded-lg p-4 font-mono text-sm overflow-x-auto",
+      "text": "text-gray-300",
+      "keyword": "text-accent",
+      "string": "text-success"
+    },
+    "key_reveal": {
+      "container": "flex items-center justify-between bg-[#09090B] border border-border rounded-md p-1 pl-3",
+      "value_hidden": "font-mono text-text-muted text-sm tracking-widest",
+      "value_visible": "font-mono text-text-primary text-sm",
+      "action": "p-2 text-text-secondary hover:text-text-primary hover:bg-surface-elevated rounded transition-colors"
+    }
+  },
+  "page_layouts": {
+    "landing": {
+      "structure": "Bento Grid (Tetris) + Generous Spacing",
+      "hero": "Left-aligned highly technical headline (Cabinet Grotesk, text-6xl, tracking-tighter). Right side features abstract 3D floating cards and code. CTA is stark and solid.",
+      "features": "Dark grid borders exposing the skeleton. High contrast monochrome cards.",
+      "developer_section": "Terminal/Retro-Futurism aesthetic. Massive code block over dark graphite texture."
+    },
+    "login_register": {
+      "structure": "Split screen layout.",
+      "left": "Dark, moody abstract background with faint data lines. Brand statement in center.",
+      "right": "Solid background. Minimalist form. High-contrast input borders."
+    },
+    "dashboard_home": {
+      "structure": "Control Room Grid. Tight spacing.",
+      "top": "North star metric (Gross Volume) in large display font. No card container, just raw numbers and a trend line.",
+      "main": "Modular widgets: Revenue Chart (Line), Success Rate (Donut), Recent Activity (List).",
+      "spacing": "gap-6, strictly aligned."
+    },
+    "transactions_table": {
+      "structure": "Full-width table filling the main content area.",
+      "actions": "Top bar with search input (left) and filter dropdowns (right).",
+      "detail_view": "Slide-out drawer (Sheet component from Shadcn) on row click. Contains timeline of the payment intent, raw JSON logs, and 'Refund' action button."
+    },
+    "api_keys": {
+      "structure": "Two-column layout or constrained center column.",
+      "content": "Alert banner warning about secret key exposure. Standard key table (Publishable vs Secret). Secret key hidden by default, requires 'Reveal' action."
+    },
+    "hosted_checkout": {
+      "structure": "Light card on dark background (or fully light theme override for trust).",
+      "container": "Central constrained card (max-w-md). White background, black text. Soft shadow to pop off the dark void background.",
+      "header": "Merchant logo (center), Amount (massive text-4xl font-display).",
+      "form": "Apple/Google Pay buttons stacked. Divider. Embedded card input. Pay CTA."
+    }
+  },
+  "media": {
+    "image_urls": [
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/631755da-ecca-4729-8e1a-d6e4b501915b/images/da039920e951d25e471b16b4516dd43eaa195b5c8b44157b65cf72dbb3610c95.png",
+        "description": "Dark aesthetic 3D rendering of floating metallic credit cards and code snippets in a void, sharp edge lighting, volt yellow accents",
+        "category": "hero_background"
+      },
+      {
+        "url": "https://static.prod-images.emergentagent.com/jobs/631755da-ecca-4729-8e1a-d6e4b501915b/images/1ec11ddf2404792b685ebc359e0bc534c60dfbb292d8678c6c126c63549985f6.png",
+        "description": "Subtle dark graphite texture with faint glowing data lines",
+        "category": "developer_section_background"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1741649416153-b724f78821b9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwyfHxtYXN0ZXJjYXJkJTIwdmlzYSUyMGxvZ28lMjB0cmFuc3BhcmVudHxlbnwwfHx8fDE3Nzk3ODQ3Njd8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Three transparent credit cards stacked",
+        "category": "test_card_showcase"
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1537724326059-2ea20251b9c8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjAzNzl8MHwxfHNlYXJjaHwyfHxjcmVkaXQlMjBjYXJkJTIwbW9ja3VwJTIwYmxhY2t8ZW58MHx8fHwxNzc5Nzg0NzY3fDA&ixlib=rb-4.1.0&q=85",
+        "description": "person holding black card",
+        "category": "marketing_feature"
+      }
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Ensure all fonts (Cabinet Grotesk, IBM Plex Sans, JetBrains Mono) are imported via Google Fonts or Fontshare in the index.html or global CSS.",
+    "Tailwind configuration must extend the provided color tokens, specifically using the 'accent' (#D4FF00) for primary buttons and interactive states.",
+    "Do NOT use generic purple or teal gradients. Stick to the dark fintech aesthetic: rich blacks (#050505), crisp borders (#27272A), and Volt Yellow accents.",
+    "For the hosted checkout page, use a distinct layout: a crisp white card on the dark background to build consumer trust, completely contrasting the dark developer dashboard.",
+    "Implement 'data-testid' on all interactive elements: forms, buttons, links, toggles.",
+    "Use Shadcn UI but heavily customize the card, table, and input primitives to match the component recipes defined here. No default 'Vercel-look'.",
+    "Ensure the API keys in the dashboard are hidden by default, utilizing the key_reveal recipe for interactions."
+  ]
+}
