@@ -66,19 +66,22 @@ async def register(payload: RegisterRequest, response: Response):
 async def login(payload: LoginRequest, response: Response, request: Request):
     db = get_db()
     email = payload.email.lower()
-    ip = request.client.host if request.client else "unknown"
+    # Extract real client IP from X-Forwarded-For (k8s ingress); fallback to request.client
+    xff = request.headers.get("x-forwarded-for", "")
+    ip = xff.split(",")[0].strip() if xff else (request.client.host if request.client else "unknown")
     identifier = f"{ip}:{email}"
 
     # Brute force check
     attempts = await db.login_attempts.find_one({"identifier": identifier})
     if attempts and attempts.get("count", 0) >= 5:
         last_attempt = attempts.get("last_attempt", "")
+        last_dt = None
         try:
             last_dt = datetime.fromisoformat(last_attempt)
-            if (datetime.now(timezone.utc) - last_dt).total_seconds() < 900:
-                raise HTTPException(status_code=429, detail="Too many failed attempts. Try again in 15 minutes.")
-        except Exception:
-            pass
+        except (ValueError, TypeError):
+            last_dt = None
+        if last_dt and (datetime.now(timezone.utc) - last_dt).total_seconds() < 900:
+            raise HTTPException(status_code=429, detail="Too many failed attempts. Try again in 15 minutes.")
 
     user = await db.users.find_one({"email": email})
     if not user or not verify_password(payload.password, user["password_hash"]):

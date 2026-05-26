@@ -51,8 +51,8 @@ export default function Home() {
               <span className="text-text-muted">·</span>
               <span className="text-text-secondary">{stats?.successful_charges ?? 0} successful charges</span>
             </div>
-            <div className="mt-8 h-[180px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="mt-8 h-[180px] min-h-[180px] w-full">
+              <ResponsiveContainer width="100%" height={180}>
                 <AreaChart data={series} margin={{ left: 0, right: 0, top: 4, bottom: 0 }}>
                   <defs>
                     <linearGradient id="volt" x1="0" y1="0" x2="0" y2="1">
