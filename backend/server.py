@@ -31,6 +31,22 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Voltpay Payment Platform", version="1.0.0", lifespan=lifespan)
 
+
+@app.middleware("http")
+async def vercel_api_prefix_normalizer(request, call_next):
+    """Defensive: if a reverse proxy (e.g. Vercel experimentalServices with
+    routePrefix=/api) strips the '/api' prefix before the request reaches us,
+    re-prepend it so our existing routes still match. No-op when the prefix is
+    already there (local dev, Emergent, Render, Railway, etc.)."""
+    path = request.scope.get("path", "")
+    if path and not path.startswith("/api"):
+        new_path = "/api" + path if path.startswith("/") else "/api/" + path
+        request.scope["path"] = new_path
+        if "raw_path" in request.scope:
+            request.scope["raw_path"] = new_path.encode("utf-8")
+    return await call_next(request)
+
+
 # CORS - must allow credentials with explicit origin (no '*')
 frontend_url = os.environ.get("FRONTEND_URL", "http://localhost:3000")
 allowed_origins = [frontend_url, "http://localhost:3000"]

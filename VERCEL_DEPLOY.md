@@ -1,80 +1,95 @@
-# Voltpay — Deploying to Vercel
+# Voltpay — Deploying to Vercel (experimentalServices)
 
-Voltpay is a full-stack app (React + FastAPI + MongoDB). Vercel can host all three pieces
-as a single project using its serverless Python runtime.
+Vercel's new `experimentalServices` feature lets you deploy the React frontend and the
+FastAPI backend as a single project. The `vercel.json` in the repo root already declares both.
 
-## 1. Prerequisites
+## Repo layout Vercel expects
 
-1. **MongoDB Atlas** account (free tier is fine) — Vercel does not host databases.
-   Create a cluster and grab the connection string (`mongodb+srv://...`).
+```
+/
+├── vercel.json              ← multi-service config
+├── frontend/                ← React (create-react-app + craco)
+│   ├── package.json
+│   └── ...
+└── backend/                 ← FastAPI
+    ├── server.py
+    ├── requirements.txt
+    └── ...
+```
+
+## What's in vercel.json
+
+```json
+{
+  "experimentalServices": {
+    "frontend": {
+      "root": "frontend",
+      "routePrefix": "/",
+      "framework": "create-react-app"
+    },
+    "backend": {
+      "root": "backend",
+      "routePrefix": "/api"
+    }
+  }
+}
+```
+
+- Frontend serves at `/`
+- Backend service receives every request starting with `/api`
+- `server.py` already has a defensive middleware that re-adds `/api/` if Vercel strips it,
+  so routes work either way
+
+## Prerequisites
+
+1. **MongoDB Atlas** — Vercel doesn't host databases. Create a free cluster and get the
+   `mongodb+srv://` connection string.
 2. **Vercel** account connected to your GitHub repo.
 
-## 2. Files already configured
+## Required environment variables (Vercel → Project Settings → Environment Variables)
 
-```
-/vercel.json          ← tells Vercel how to build & route
-/api/index.py         ← serverless entrypoint that exposes the FastAPI app
-/api/requirements.txt ← Python deps for the serverless function
-/.vercelignore        ← excludes tests, .env, etc.
-```
+Apply each to **Production, Preview, and Development**:
 
-You do **not** need a separate backend host. The same Vercel project serves:
-- React frontend at `/`
-- FastAPI backend at `/api/*`
-
-## 3. Required Vercel environment variables
-
-In your Vercel project: **Settings → Environment Variables** add:
-
-| Name | Example | Required |
-|------|---------|----------|
-| `MONGO_URL` | `mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true&w=majority` | ✅ |
-| `DB_NAME` | `voltpay` | ✅ |
-| `JWT_SECRET` | (run `openssl rand -hex 32` and paste the result) | ✅ |
-| `FRONTEND_URL` | `https://your-project.vercel.app` (your deployed URL) | ✅ |
+| Name | Example | Notes |
+|------|---------|-------|
+| `MONGO_URL` | `mongodb+srv://user:pass@cluster.mongodb.net/?retryWrites=true&w=majority` | from MongoDB Atlas |
+| `DB_NAME` | `voltpay` | any name |
+| `JWT_SECRET` | run `openssl rand -hex 32` and paste | required |
+| `FRONTEND_URL` | `https://your-project.vercel.app` | your deployed URL |
 | `PLATFORM_FEE_PERCENT` | `0` | optional |
 | `PLATFORM_FEE_FIXED_CENTS` | `0` | optional |
-| `REACT_APP_BACKEND_URL` | leave **empty** (frontend & backend share the same domain) | ✅ (set as empty string) |
+| `REACT_APP_BACKEND_URL` | *(leave empty)* | same-origin deploy |
 
-> Apply all variables to **Production, Preview, and Development** scopes.
+## Deploy
 
-## 4. Deploy
+1. `git add vercel.json backend/server.py && git commit -m "vercel: experimentalServices" && git push`
+2. In Vercel, **Add New Project → Import** the repo.
+3. **Root Directory** = `.` (repo root).
+4. Add the env vars above.
+5. **Deploy**.
 
-1. Push your repo to GitHub.
-2. In Vercel, **Add New Project** → import your repo.
-3. **Framework Preset:** Vercel should detect `Other` (because of `vercel.json`). Leave it.
-4. **Root Directory:** leave as `.` (root of repo).
-5. Add the env vars from step 3.
-6. Click **Deploy**.
+Vercel will:
+- Build frontend with `yarn build` inside `/frontend`
+- Install Python deps from `/backend/requirements.txt`
+- Run FastAPI under `/api/*`
+- Serve the React SPA at every other route
 
-The build will:
-- Run `yarn install && yarn build` inside `frontend/`
-- Install Python deps from `api/requirements.txt`
-- Expose `/api/*` to the FastAPI app
-- Serve the React build at every other URL
+## After deploy — quick verification
 
-## 5. After deploy
+```bash
+# Should return {"name":"Voltpay","version":"1.0.0","status":"ok"}
+curl https://<your-project>.vercel.app/api/
 
-- Visit `https://<your-project>.vercel.app` → landing page
-- `/register` to create a merchant account
-- `/api/v1/payment_intents` for the REST API
+# Should return your landing page HTML
+curl -I https://<your-project>.vercel.app/
+```
 
-## Known Vercel limitations
+Visit `/register` to create a merchant account end-to-end.
 
-- **Cold starts (~1–3 s)** on first request after idle. Subsequent requests are fast.
-- **10 s timeout** on the Hobby plan, 60 s on Pro. Confirm-payment is well under both.
-- **No persistent file system / background workers.** Webhook delivery is logged but
-  not yet retried by a worker (this is the same as on Emergent — see PRD backlog).
-- Each cold start opens a new MongoDB connection. Use MongoDB Atlas (which pools
-  connections) — do not use a single-node EC2 mongod.
+## Notes
 
-## Optional: deploy only the frontend on Vercel
-
-If you'd rather keep the backend somewhere else (Railway, Render, Fly.io), delete
-`vercel.json` + `/api`, then set:
-
-- Vercel **Root Directory** = `frontend`
-- Vercel **Framework Preset** = Create React App
-- Env var `REACT_APP_BACKEND_URL` = your backend's public URL
-
-That's it — Vercel will auto-detect everything else.
+- `experimentalServices` is a Vercel beta feature. If routing acts up, check Vercel's
+  build logs first.
+- The `/api/index.py` file in this repo is **not used** by the experimentalServices
+  config — it was a fallback from the previous approach. You can leave it or delete it.
+- Cold starts apply only to the backend service (~1–3 s after idle). Frontend is static.
